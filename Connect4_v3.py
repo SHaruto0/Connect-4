@@ -140,11 +140,11 @@ def read_result():
             if play[0] == 2:
                 b[play[1][0]][play[1][1]] += 1
 
-    print()
-    for b in analyze_boards:
-        for row in b.board:
-            print(row)
-        print()
+    # print()
+    # for b in analyze_boards:
+    #     for row in b.board:
+    #         print(row)
+    #     print()
 
     total_games = [0 for _ in range(7)]
     for i in range(7):
@@ -155,7 +155,7 @@ def read_result():
             if g2[0][1][1] == i:
                 total_games[i] += 1
 
-    print(total_games)
+    # print(total_games)
 
     i = 0
     for board in analyze_boards:
@@ -169,11 +169,11 @@ def read_result():
         #analyze_boards[i] = b
         i += 1
 
-    print()
-    for b in analyze_boards:
-        for row in b.board:
-            print(row)
-        print()
+    # print()
+    # for b in analyze_boards:
+    #     for row in b.board:
+    #         print(row)
+    #     print()
 
     # rate = 0
     # c = 0
@@ -220,11 +220,11 @@ def read_result():
         board.board = b_temp
                             
 
-    print()
-    for b in analyze_boards:
-        for row in b.board:
-            print(row)
-        print()
+    # print()
+    # for b in analyze_boards:
+    #     for row in b.board:
+    #         print(row)
+    #     print()
 
     temp = 0
     c = 0
@@ -254,7 +254,7 @@ def read_result():
                 if count_max > count:
                     c = col
                     v = b[row][col]
-                    print(v)
+                    # print(v)
 
         col += 1
 
@@ -276,19 +276,19 @@ def read_result():
                     if col != col2:
                         total_sub += b[row][col]
                     break
-        print(total_sub)
+        # print(total_sub)
         if total_sub < total:
             total = total_sub
             c2 = col2
         col2 += 1
     
 
-    print(total)
-    print()
+    # print(total)
+    # print()
     if total < 0:
         return c2
     elif total >= 0:
-        print(c)
+        # print(c)
         return c
 
     # return c2
