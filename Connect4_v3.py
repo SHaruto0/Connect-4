@@ -116,6 +116,8 @@ def play_game():
                 game_temp2 = copy.deepcopy(game)
                 game_temp2.current_player = 2
                 if game_temp2.drop_piece(c):
+                    if game_temp2.check_win():
+                        continue
                     game_temp2.current_player = 1
                     if game_temp2.drop_piece(c):
                         if game_temp2.check_win():
@@ -200,18 +202,6 @@ def read_result(l):
     #     for row in b.board:
     #         print(row)
     #     print()
-
-    # rate = 0
-    # c = 0
-    # for b in range(len(analyze_boards)):
-    #     board = analyze_boards[b]
-    #     count = 0
-    #     for row in board.board:
-    #         for col in row:
-    #             count += col
-    #     if count > rate:
-    #         rate = count
-    #         c = b
 
     over_70 = []
     col = 0
@@ -371,17 +361,5 @@ def read_result(l):
             return c2
         else:
             return c
-        # print("hi")
-        # return statistics.mode([c,c2,c3])
-
-    # if total < 0:
-    #     print(c2)
-    #     return c2
-    # elif total >= 0:
-    #     print(c)
-    #     return c
-
-    # return c2
-
     
 play_game()
