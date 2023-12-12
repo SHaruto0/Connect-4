@@ -2,10 +2,12 @@ import random
 import time
 import copy
 import json
+import statistics
 
 class Connect4:
    def __init__(self):
-       self.board = [[0 for _ in range(7)] for _ in range(6)]
+       self.board = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,2,2,0,0],[0,0,0,1,1,0,0],[0,0,0,1,1,2,0],[0,0,1,2,1,2,2]]
+       #[[0 for _ in range(7)] for _ in range(6)]
        self.current_player = 1
 
    def drop_piece(self, column,result=[]):
@@ -96,7 +98,32 @@ def play_game():
             f.write(r)
             f.close()
 
-            col = read_result()
+            condition = True
+            col = 0 
+            for c in range(7):
+                game_temp1 = copy.deepcopy(game)
+                game_temp1.current_player = 1
+                if game_temp1.drop_piece(c):
+                    # print()
+                    # game_temp1.print_board()
+                    # print(game_temp1.check_win())
+                    if game_temp1.check_win():
+                         col = c
+                         condition = False
+                         break
+            
+            l = []
+            for c in range(7):
+                game_temp2 = copy.deepcopy(game)
+                game_temp2.current_player = 2
+                if game_temp2.drop_piece(c):
+                    game_temp2.current_player = 1
+                    if game_temp2.drop_piece(c):
+                        if game_temp2.check_win():
+                            l.append(c)
+
+            if condition:
+                col = read_result(l)
             print()
             print("AI Placed In Column "+str(col))
 
@@ -123,7 +150,7 @@ def play_game():
         game.current_player = 2 if game.current_player == 1 else 1
 
 
-def read_result():
+def read_result(l):
     analyze_boards = []
     for b in range(7):
         analyze_boards.append(Analyse(b))
@@ -193,10 +220,46 @@ def read_result():
         b = board.board
         for row in range(5, -1, -1):
             if b[row][col] != 0:
-                if b[row][col] >= 70:
+                if b[row][col] >= 0.70:
                     over_70.append(col)
                 break
         col += 1
+
+
+    col = 0
+    c3 = 0
+    tem = 0
+    v = 0
+    for board in analyze_boards:
+        b = board.board
+        if col in l:
+            col += 1
+            continue
+        for row in range(5, -1, -1):
+            if b[row][col] != 0 and b[row][col] > tem:
+                tem = b[row][col]
+                c3 = col
+                break
+            elif b[row][col] != 0 and b[row][col] == tem:
+                count = 0
+                count_max = 0
+                for a in analyze_boards[c3].board:
+                    for bn in a:
+                        if bn == 0:
+                            count += 1
+                
+                for a in analyze_boards[col].board:
+                    for bn in a:
+                        if bn == 0:
+                            count_max += 1
+                
+                if count_max > count:
+                    c3 = col
+                    v = b[row][col]
+        col += 1
+
+    if v == 1 or tem == 1:
+        return c3
 
 
     for board in analyze_boards:
@@ -230,9 +293,11 @@ def read_result():
     c = 0
     col = 0
     v = 0
-    l = []
     for board in analyze_boards:
         b = board.board
+        if col in l:
+            col += 1
+            continue
         for row in range(5, -1, -1):
             if b[row][col] != 0 and b[row][col] > temp:
                 temp = b[row][col]
@@ -257,7 +322,7 @@ def read_result():
                     # print(v)
 
         col += 1
-
+    # print(temp)
     if v == 1 or temp == 1:
         return c
 
@@ -266,7 +331,11 @@ def read_result():
     total = 10
     col2 = 0
     for board in analyze_boards:
+        if col2 in l:
+            col2 += 1
+            continue
         if col2 not in over_70:
+            col2 += 1
             continue
         total_sub = 0
         b = board.board
@@ -283,13 +352,35 @@ def read_result():
         col2 += 1
     
 
+    # print(over_70)
     # print(total)
     # print()
-    if total < 0:
-        return c2
-    elif total >= 0:
-        # print(c)
-        return c
+    # print(c3)
+    # print(c)
+    # print(c2)
+    # print()
+
+    if len(over_70) == 0:
+        if c == c3:
+            return c
+        else:
+            return c3
+    else:
+        if statistics.mode([c,c2,c3]) == c and c != c2 and c != c3:
+            return c2
+        if total < 0:
+            return c2
+        else:
+            return c
+        # print("hi")
+        # return statistics.mode([c,c2,c3])
+
+    # if total < 0:
+    #     print(c2)
+    #     return c2
+    # elif total >= 0:
+    #     print(c)
+    #     return c
 
     # return c2
 
