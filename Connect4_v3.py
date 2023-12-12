@@ -6,8 +6,7 @@ import statistics
 
 class Connect4:
    def __init__(self):
-       self.board = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,2,2,0,0],[0,0,0,1,1,0,0],[0,0,0,1,1,2,0],[0,0,1,2,1,2,2]]
-       #[[0 for _ in range(7)] for _ in range(6)]
+       self.board = [[0 for _ in range(7)] for _ in range(6)]
        self.current_player = 1
 
    def drop_piece(self, column,result=[]):
